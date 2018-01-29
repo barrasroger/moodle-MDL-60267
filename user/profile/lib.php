@@ -146,6 +146,15 @@ class profile_field_base {
 
         $usernew->{$this->inputname} = $this->edit_save_data_preprocess($usernew->{$this->inputname}, $data);
 
+        if (!isset($usernew->{$this->inputname})) {
+            // Field cannot be set to null, set the default value.
+            if (isset($this->field->defaultdata)) {
+                $usernew->{$this->inputname} = $this->field->defaultdata;
+            } else {
+                return;
+            }
+        }
+
         $data->userid  = $usernew->id;
         $data->fieldid = $this->field->id;
         $data->data    = $usernew->{$this->inputname};
